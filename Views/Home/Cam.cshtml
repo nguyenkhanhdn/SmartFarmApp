@@ -1,0 +1,146 @@
+﻿
+@{
+    ViewData["Title"] = "Cam";
+}
+
+
+<!-- ======= Intro Single ======= -->
+<section class="intro-single">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-8">
+                <div class="title-single-box">
+                    <h1 class="title-single">We Do Great Design For Creative Folks</h1>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-4">
+                <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            About
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section><!-- End Intro Single-->
+<!-- ======= About Section ======= -->
+<section class="section-about">
+    <div class="container">
+        <div class="row">
+            
+<div class="col-lg-6 col-md-6">
+    <div class="card card-primary card-outline direct-chat direct-chat-primary shadow-none">
+        <div class="card-header">
+            <h3>Camera vườn</h3>
+        </div>
+        <div class="card-body">
+            <video id="video" style="width:100%;height:auto;" autoplay></video>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-primary" id="start-camera">Bắt đầu</button>
+        </div>
+    </div>
+</div>
+<div class="col-lg-6 col-md-6">
+    <div class="card card-primary card-outline direct-chat direct-chat-primary">
+        <div class="card-header">
+            <h3 class="card-title">Chẩn đoán bệnh thủ công</h3>
+        </div>
+        <div class="card-body">
+            <canvas id="canvas" style="width:100%;height:350px;"></canvas>
+        </div>
+        <div class="card-footer">
+            <button id="click-photo" class="btn btn-primary">Chẩn bệnh</button>
+        </div>
+    </div>
+</div>
+<div class="col-lg-12 col-md-12">
+    <h3>Chẩn đoán</h3>
+    <span id="result"></span>
+    <h3>Nguyên nhân gây bệnh</h3>
+    <div id="cause">Nguyên nhân gây bệnh</div>
+    <h3>Cách điều trị</h3>
+    <div id="treatment">Treatment</div>
+   
+    
+</div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script type="text/javascript">
+
+
+        let camera_button = document.querySelector("#start-camera");
+        let video = document.querySelector("#video");
+        let click_button = document.querySelector("#click-photo");
+        let canvas = document.querySelector("#canvas");
+
+        //Hàm khởi động camera khi bấm nút start
+        camera_button.addEventListener('click', async function () {
+            let stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+            video.srcObject = stream;
+        });
+
+        //Hàm chụp ảnh để gửi lên webserver, chẩn bệnh và trả về kết qủa
+        click_button.addEventListener('click', function () {
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            let image_data_url = canvas.toDataURL('image/png');
+            imagebase64data = image_data_url.replace('data:image/png;base64,', '');
+
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("UploadWebCamImage")",
+                data: { mydata: imagebase64data },
+                dataType: 'text',
+                success: function (out) {
+                    let cause = "";
+                    let treatment = "";
+                    if (out == "Tomato_Early_blight") {
+                        cause = "Trên lá vết bệnh bắt đầu là những đốm nhỏ hình tròn đến hình bầu dục màu nâu sẫm đến đen. Những đốm này to ra, trở thành hình bầu dục đến góc cạnh và thường giới hạn trong các gân chính của lá chét. Chúng có đường kính lên tới 6 mm. Trong điều kiện rất thuận lợi, các đốm riêng lẻ có thể phát triển tới 10-12 mm. Chúng trở nên trông giống như da và sự phát triển của các vòng đồng tâm gần nhau trong mỗi đốm khiến bệnh có tên là đốm mục tiêu. Khi bệnh nặng, các đốm có thể liên kết với nhau và làm cho đầu lá cuộn lên trên và làm chết lá. Các đốm phát triển trên thân dài hơn các đốm trên lá. Điểm mục tiêu đôi khi có thể lây nhiễm sang củ. Nó xuất hiện như bóng tối nhỏ, các tổn thương hơi trũng, hình tròn đến hình dạng không đều (đường kính 10 đến 20 mm), với bờ hơi gồ lên. Một vết thối khô màu nâu, sần sùi sâu đến 6 mm phát triển trong mô bên dưới vết bệnh.";
+                        treatment = "Loại bỏ các mảnh vụn thực vật cũ vào cuối mùa sinh trưởng; nếu không, các bào tử sẽ di chuyển từ mảnh vụn sang cà chua mới trồng trong mùa sinh trưởng tiếp theo, do đó bệnh lại bùng phát trở lại. Vứt bỏ các mảnh vụn đúng cách và không đặt nó trên đống phân ủ của bạn trừ khi bạn chắc chắn rằng phân trộn của bạn đủ nóng để tiêu diệt các bào tử.";
+                    }
+                    else if (out == "Tomato_Leaf_Mold") {
+                        cause = "Những đốm màu xanh nhạt đến hơi vàng trên mặt trên của lá chuyển sang màu vàng tươi. Các đốm hợp nhất khi bệnh tiến triển và tán lá sau đó chết. Lá bị nhiễm bệnh cuộn lại, khô héo và thường rụng khỏi cây. Hoa, thân và quả có thể bị nhiễm bệnh, mặc dù thường chỉ mô lá bị ảnh hưởng. Khi bệnh biểu hiện trên quả, cà chua bị mốc lá có màu sẫm, sần sùi và thối ở đầu cuống.";
+                        treatment = "Độ ẩm tương đối cao (hơn 85%) kết hợp với nhiệt độ cao khuyến khích sự lây lan của bệnh. Với ý nghĩ đó, nếu trồng cà chua trong nhà kính, hãy duy trì nhiệt độ ban đêm cao hơn nhiệt độ bên ngoài. Khám phá thêm Khi trồng, chỉ sử dụng hạt giống sạch bệnh đã được chứng nhận hoặc hạt giống đã được xử lý. Loại bỏ và tiêu hủy tất cả các mảnh vụn cây trồng sau thu hoạch. Vệ sinh nhà kính giữa các vụ mùa. Sử dụng quạt và tránh tưới nước trên cao để giảm thiểu độ ẩm của lá. Ngoài ra, cắm cọc và tỉa cây để tăng khả năng thông gió.";
+                    }
+                    else if (out == "Tomato_Septoria_leaf_spot"){
+                        cause = "Các triệu chứng thường xuất hiện trên lá, nhưng có thể xuất hiện trên cuống lá, thân và đài hoa. Các triệu chứng đầu tiên xuất hiện dưới dạng các đốm tròn nhỏ, thấm nước, có đường kính từ 1/16 đến 1/8 ở mặt dưới của các lá già.Tâm của các đốm này sau đó chuyển sang màu xám đến rám nắng và có viền màu nâu sẫm. Các đốm này có hình tròn đặc biệt và thường khá nhiều. Khi các đốm già đi, đôi khi chúng to ra và thường liên kết với nhau.Một đặc điểm chẩn đoán bệnh này là sự hiện diện của nhiều cấu trúc giống như mụn, màu nâu sẫm được gọi là pycnidia(quả thể của nấm) có thể dễ dàng nhìn thấy ở trung tâm rám nắng của các đốm. Khi các đốm có nhiều, lá bị ảnh hưởng chuyển sang màu vàng và cuối cùng teo lại, màu nâu và rụng.";
+                        treatment = "Điều rất quan trọng là phải loại bỏ nguồn lây nhiễm ban đầu bằng cách loại bỏ hoặc tiêu hủy càng nhiều mảnh vụn cà chua càng tốt sau khi thu hoạch vào mùa thu. Ngoài ra, ở những cánh đồng rộng lớn mà việc loại bỏ thực vật là không thực tế, tàn dư thực vật có thể được che phủ và chôn vùi bằng cách cày sâu . tránh tưới nước từ trên cao hoặc tưới nước sớm trong ngày để lá khô nhanh hơn so với tưới nước vào ban đêm. Ngoài ra, bạn nên tránh làm việc với cây khi chúng bị ướt. Mặc dù tính kháng bệnh đốm lá Septoria đã được xác định tạm thời ở một số dòng cà chua được sử dụng để nhân giống, nhưng cho đến nay không có giống kháng bệnh nào được bán trên thị trường. Thuốc diệt nấm rất hiệu quả để kiểm soát bệnh đốm lá Septoria và các ứng dụng thường cần thiết để bổ sung cho các chiến lược kiểm soát đã vạch ra trước đó. Thuốc diệt nấm chlorothalonil và mancozeb được dán nhãn để chủ nhà sử dụng.";
+                    }
+                    else if (out == "Tomato__Tomato_YellowLeaf__Curl_Virus") {
+                        cause = "rụng hoa và quả sẽ chưa xuất hiện rõ ràng. Khi cà chua cấy ghép được mua từ nhiều nhà cung cấp, các triệu chứng ban đầu của TYLCV có thể được nhận biết dễ dàng hơn nhờ sự tương phản giữa cà chua bị nhiễm bệnh và không bị nhiễm bệnh trong vườn hoặc giữa các lô vườn gần đó. Khi cây bị nhiễm bệnh già đi, có thể quan sát thấy các triệu chứng rõ rệt hơn như lá uốn cong, giảm kích thước lá, rụng hoa và cây còi cọc - đặc biệt là khi cà chua khỏe mạnh ở cùng khu vực để so sánh.";
+                        treatment = "Cắt bỏ cây bên dưới túi và để túi có cây và bọ phấn chết khô trên bề mặt đất trong 1-2 ngày trước khi bỏ cây vào thùng rác. Đừng cắt bỏ cây hoặc nhổ nó ra khỏi vườn và ném nó vào phân hữu cơ! ";
+                    }
+                    else{
+                        cause = "Cây phát triển bình thường";
+                        treatment = "Chăm sóc bình thường";
+                    }
+                    document.getElementById('result').innerHTML = out;
+                    document.getElementById('cause').innerHTML = cause;
+                    document.getElementById('treatment').innerHTML = treatment;
+                }
+            });
+            // data url of the image
+            console.log(image_data_url);
+        });
+        //Chế độ chạy tự động, thiết lập thời gia bằng công thức: số phút * 60 * 1000
+        function autoPredict() {
+            document.getElementById('click-photo').click();
+            setTimeout(autoPredict, 60000 ); //Test với thời gian 1 phút, sau này tăng lên
+        }
+        autoPredict();//Gọi hàm chạy tự động
+
+        //Khi trang web load xong, camera sẽ bật
+        $(document).ready(function () {
+            document.getElementById('start-camera').click();
+        });
+
+    </script>
+}

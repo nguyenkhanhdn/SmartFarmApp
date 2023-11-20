@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewData["Title"] = "Upload";
+}
+
+<!-- ======= Intro Single ======= -->
+<section class="intro-single">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-8">
+                <div class="title-single-box">
+                    <h1 class="title-single">We Do Great Design For Creative Folks</h1>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-4">
+                <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            About
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section><!-- End Intro Single-->
+<!-- ======= About Section ======= -->
+<section class="section-about">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 position-relative">
+
+                <h1>Upload</h1>
+                <form action="/Home/Upload" method="post" enctype="multipart/form-data">
+                    <div class="row mb-3">
+                        <label for="inputEmail3" class="col-sm-3 col-form-label">Chọn ảnh</label>
+                        <div class="col-sm-9">
+                            <input type="file" class="form-control" name="fileUpload" id="fileUpload" required>
+                        </div>
+                    </div>
+
+                    <div class="text-left">
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                    </div>
+
+                    @if (ViewBag.Result != null)
+                    {
+                        <div class="row mb-3">
+                            <label for="inputEmail3" class="col-sm-3 col-form-label">Chẩn đoán</label>
+                            <div class="col-sm-9">
+                                <div name="result" id="result" class="form-label">@ViewBag.Result</div>
+                                @*<input type="text" class="form-control" name="result" id="result" readonly>*@
+                            </div>
+                        </div>
+                    }
+                </form><!-- End Horizontal Form -->
+            </div>
+        </div>
+    </div>
+</section>

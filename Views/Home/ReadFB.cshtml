@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewData["Title"] = "ReadFB";
+}
+
+<section class="intro-single">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-8">
+                <div class="title-single-box">
+                    <h1 class="title-single">Liên hệ với chúng tôi</h1>
+                    <span class="color-text-a">Bạn quan tâm, muốn tìm hiểu và chia sẻ về phát triển nông nghiệp xanh, nông nghiệp thông tin, hãy liên hệ với chúng tôi qua các kênh thông tin.</span>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-4">
+                <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="~/home">Trang chủ</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Liên hệ
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section><!-- End Intro Single-->
+
+<section class="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="section-header">
+                    <h2>Thông tin chỉ số vườn</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3">
+                <fieldset>
+                    <legend>Chỉ số hiện tại</legend>
+                    <h5>Độ ẩm đất thực tế: @ViewBag.Doam</h5>
+                    <br />
+                    <h5>Nhiệt độ không khí: @ViewBag.Nhietdokk</h5>
+                    <br />
+                    <h5>Độ ẩm không khí: @ViewBag.KK</h5>
+                </fieldset>
+            </div><!-- End Contact Form -->
+
+            <div class="col-lg-6 col-md-6">
+                <video id="gum" playsinline autoplay muted style="border: 1px solid rgb(15, 158, 238); height: 240px; width: 320px;"></video>
+                <div>
+                    <button id="start" class="btn btn-success">Start camera</button>
+                    <button id="record" disabled class="btn btn-info">Start Recording</button>
+                    <button id="stop" class="btn btn-danger">Stop camera</button>
+                </div>
+                <div style="display:none;"><span id="errorMsg"></span></div>
+            </div>
+
+            <div class="col-lg-3 col-md-3">
+                <h3>Thiết lập giá trị mới</h3>
+                <form action="~/home/WriteFB" method="post">
+                    @* <label class="form-label">Độ ẩm đất:</label><br />
+                    <input class="form-control" name="Doamdat" placeholder="Độ ẩm đất" type="number" /> <br />*@
+                    @*<label class="form-label">Độ ẩm không khí:</label><br />
+                    <input class="form-control" name="Doamkk" placeholder="Độ ẩm không khí" type="number" /> <br />
+                    <label class="form-label">Nhiệt độ không khí:</label><br />
+                    <input class="form-control" name="Nhietdokk" placeholder="Nhiệt độ không khí" type="number" /> <br />*@
+                    <label class="form-label">Chế độ:</label><br />
+                    <select name="Mode">
+                        <option value="1">Cà chua</option>
+                        <option value="2">Hạt tiêu</option>
+                        <option value="3">Tưới cây</option>
+                        <option value="4">Kiểm tra bệnh</option>
+                    </select>   <br />
+                    <br />
+                    <input type="submit" value="Thiết lập" class="btn btn-primary" />
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts{
+    <script src="~/js/video.js"></script>
+}

@@ -1,0 +1,5 @@
+Tomato_Early_blight
+Tomato_Leaf_Mold
+Tomato_Septoria_leaf_spot
+Tomato__Tomato_YellowLeaf__Curl_Virus
+Tomato_healthy
