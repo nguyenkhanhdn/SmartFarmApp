@@ -11,12 +11,14 @@ using lobe;
 using SixLabors.ImageSharp.PixelFormats;
 using lobe.ImageSharp;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.Threading.Tasks;
 
 namespace SmartFarmApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
 
         private IHostingEnvironment Environment;
 
