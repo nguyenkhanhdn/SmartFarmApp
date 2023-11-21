@@ -9,17 +9,18 @@
         <div class="row">
             <div class="col-md-12 col-lg-8">
                 <div class="title-single-box">
-                    <h1 class="title-single">We Do Great Design For Creative Folks</h1>
+                    <h1 class="title-single">SMART FARM 4.0</h1>
+                    <span class="color-text-a">Chẩn đoán bệnh bằng hình ảnh</span>
                 </div>
             </div>
             <div class="col-md-12 col-lg-4">
                 <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="#">Home</a>
+                            <a href="~/home">Home</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">
-                            About
+                            Chẩn đoán bệnh bằng hình ảnh
                         </li>
                     </ol>
                 </nav>
@@ -33,16 +34,20 @@
         <div class="row">
             <div class="col-sm-12 position-relative">
 
-                <h1>Upload</h1>
+                <h5>Upload hỉnh ảnh lá cà chua để chẩn đoán bệnh</h5>
+                <br/>
+
                 <form action="/Home/Upload" method="post" enctype="multipart/form-data">
                     <div class="row mb-3">
-                        <label for="inputEmail3" class="col-sm-3 col-form-label">Chọn ảnh</label>
+                        <label for="inputEmail3" class="col-sm-3 col-form-label"><h6>Chọn ảnh</h6></label>
                         <div class="col-sm-9">
                             <input type="file" class="form-control" name="fileUpload" id="fileUpload" required>
                         </div>
                     </div>
-
+                    
+                    <br />
                     <div class="text-left">
+                        
                         <button type="submit" class="btn btn-primary">Upload</button>
                         <button type="reset" class="btn btn-secondary">Reset</button>
                     </div>
